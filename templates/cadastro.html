@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Cadastro</h2>
+        <form method="POST">
+            <input type="text" name="nome" placeholder="Nome" required><br>
+            <input type="email" name="email" placeholder="E-mail" required><br>
+            <input type="text" name="matricula" placeholder="Matricula" required><br>
+            <input type="password" name="senha" placeholder="Senha" required><br>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p><a href="{{ url_for('login') }}">Já tem conta? Fazer login</a></p>
+    </div>
+</body>
+</html>

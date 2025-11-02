@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Professores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cadastro.css') }}">
+
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <h1>👩‍🏫 Cadastrar Professor</h1>
+
+        <label>Foto de Perfil:</label>
+        <input type="file" name="foto" accept="image/*" required>
+
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+
+        <label>Cargo:</label>
+        <input type="text" name="cargo" required>
+
+        <label>Frase Top:</label>
+        <input type="text" name="frase">
+
+        <button type="submit">Salvar Professor</button>
+        <a href="{{ url_for('painel') }}">⬅️ Voltar ao painel</a>
+    </form>
+</body>
+</html>

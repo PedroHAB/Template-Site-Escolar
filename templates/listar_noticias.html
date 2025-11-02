@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Notícias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='listar.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📰 Notícias Cadastradas</h1>
+
+        {% if noticias %}
+            <div class="cards">
+                {% for noticia in noticias %}
+                    <div class="card">
+                        {% if noticia.imagens %}
+                            {% for img in noticia.imagens %}
+                                <img src="data:image/png;base64,{{ img }}" alt="{{ noticia.titulo }}">
+                            {% endfor %}
+                        {% else %}
+                            <div class="placeholder">Sem Imagem</div>
+                        {% endif %}
+                        <h3>{{ noticia.titulo }}</h3>
+                        {% if noticia.subtitulo %}
+                            <p><em>{{ noticia.subtitulo }}</em></p>
+                        {% endif %}
+                        <p>{{ noticia.corpo }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Nenhuma notícia cadastrada.</p>
+        {% endif %}
+
+        <a href="{{ url_for('painel') }}" class="btn">⬅️ Voltar ao Painel</a>
+    </div>
+</body>
+</html>
