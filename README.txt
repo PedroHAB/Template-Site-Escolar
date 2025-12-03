@@ -40,10 +40,10 @@ Tabela usuarios
 Armazena informações sobre os usuários, incluindo uma chave estrangeira (matricula) que deve ser única e referenciar a coluna id na tabela matriculas.
 
 CREATE TABLE usuarios (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL,
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	email VARCHAR(100) UNIQUE NOT NULL,
+	senha VARCHAR(255) NOT NULL,
 	matricula INTEGER UNIQUE REFERENCES matriculas (id)
 );
 
@@ -52,11 +52,11 @@ Tabela noticias
 Usada para armazenar o conteúdo das notícias.
 
 CREATE TABLE noticias (
-    id SERIAL PRIMARY KEY,
-    titulo VARCHAR(200) NOT NULL,
-    subtitulo VARCHAR(200),
-    corpo TEXT NOT NULL,
-    imagens BYTEA[]
+	id SERIAL PRIMARY KEY,
+	titulo VARCHAR(200) NOT NULL,
+	subtitulo VARCHAR(200),
+	corpo TEXT NOT NULL,
+	imagens BYTEA[]
 );
 
 Tabela professores
@@ -64,11 +64,11 @@ Tabela professores
 Usada para armazenar informações e fotos dos professores.
 
 CREATE TABLE professores (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    cargo VARCHAR(100) NOT NULL,
-    frase TEXT,
-    foto BYTEA
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(100) NOT NULL,
+	cargo VARCHAR(100) NOT NULL,
+	frase TEXT,
+	foto BYTEA
 );
 
 Observação Importante sobre Matrículas
