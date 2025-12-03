@@ -56,7 +56,7 @@ def home():
     if 'usuario' in session:
         return redirect(url_for('painel'))
     # Renderiza o template 'home.html' para usuários não logados
-    return render_template('home.html')
+    return render_template('paginaInicial.html')
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
@@ -244,6 +244,69 @@ def listar_professores():
         })
 
     return render_template('listar_professores.html', professores=professores_formatados)
+
+@app.route('/pgServidores')
+def listar_servidores():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, nome, cargo, frase, foto FROM professores ORDER BY nome")
+    servidores = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    servidores_formatados = []
+    # Itera sobre os resultados para converter o campo binário 'foto' para Base64
+    for prof in servidores:
+        imagem_base64 = None
+        if prof[4]:  # Verifica se o campo foto (índice 4) contém dados
+            # Codifica os bytes da imagem para Base64 e decodifica para string UTF-8
+            imagem_base64 = base64.b64encode(prof[4]).decode('utf-8')
+        
+        # Cria um dicionário formatado para ser mais fácil de usar no template Jinja
+        servidores_formatados.append({
+            'id': prof[0],
+            'nome': prof[1],
+            'cargo': prof[2],
+            'frase': prof[3],
+            'imagem': imagem_base64 # A string Base64 é usada na tag <img> do HTML
+        })
+
+    return render_template('pgServidores.html', professores=servidores_formatados)
+
+@app.route('/pgNoticias')
+def listar_noticias_Site():
+    """
+    Rota para listar todas as notícias e converter suas múltiplas imagens para Base64.
+    """
+    conn = get_db_connection()
+    cur = conn.cursor()
+    # Busca todas as notícias (a coluna imagens contém um array de BYTEA)
+    cur.execute("SELECT id, titulo, subtitulo, corpo, imagens FROM noticias ORDER BY id DESC")
+    noticias = cur.fetchall()
+    cur.close()
+    conn.close()
+    
+    noticias_formatadas = []
+    # Itera sobre os resultados para processar os arrays de imagens
+    for noticia in noticias:
+        imagens_base64 = []
+        if noticia[4]:  # Verifica se o campo imagens (array) contém dados
+            # Itera sobre cada item do array de bytes (cada imagem)
+            for img in noticia[4]:
+                # Codifica cada imagem individualmente para Base64
+                imagens_base64.append(base64.b64encode(img).decode('utf-8'))
+        
+        # Cria o dicionário formatado
+        noticias_formatadas.append({
+            'id': noticia[0],
+            'titulo': noticia[1],
+            'subtitulo': noticia[2],
+            'corpo': noticia[3],
+            'imagens': imagens_base64 # Lista de strings Base64
+        })
+
+    return render_template('pgNoticias.html', noticias=noticias_formatadas)
 
 @app.route('/noticias')
 @login_required # Rota protegida
